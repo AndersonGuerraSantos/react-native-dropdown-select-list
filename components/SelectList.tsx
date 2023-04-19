@@ -40,6 +40,7 @@ const SelectList: React.FC<SelectListProps> =  ({
     }) => {
 
     const oldOption = React.useRef(null)
+    const oldOptionValue = React.useRef(null)
     const [_firstRender,_setFirstRender] = React.useState<boolean>(true);
     const [dropdown, setDropdown] = React.useState<boolean>(dropdownShown);
     const [selectedval, setSelectedVal] = React.useState<any>("");
@@ -87,21 +88,24 @@ const SelectList: React.FC<SelectListProps> =  ({
     },[selectedval])
   
 
-    React.useEffect(() => {
-        if(!_firstRender && defaultOption && oldOption.current != defaultOption.key ){
+      React.useEffect(() => {
+        if(!_firstRender && defaultOption && 
+             oldOptionValue.current != defaultOption.value){
             // oldOption.current != null
             oldOption.current = defaultOption.key
+            oldOptionValue.current = defaultOption.value
             setSelected(defaultOption.key);
             setSelectedVal(defaultOption.value);
         }
         if(defaultOption && _firstRender && defaultOption.key != undefined){
-            
+            oldOptionValue.current = defaultOption.value
             oldOption.current = defaultOption.key
             setSelected(defaultOption.key);
             setSelectedVal(defaultOption.value);
         }
         
     },[defaultOption])
+
 
     React.useEffect(() => {
         if(!_firstRender){
